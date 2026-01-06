@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Lux | Luxurious Clan</title>
+<style>
+body{background:#0b0b0b;color:#fff;font-family:Arial}
+.card{background:#1a1a1a;padding:20px;margin:20px auto;max-width:500px;border-radius:10px}
+h2{color:gold}
+input,button{width:100%;padding:12px;margin:6px 0}
+button{background:gold;border:none;font-weight:bold}
+</style>
+</head>
+<body>
+
+<div class="card">
+<h2>Apply to Lux Clan</h2>
+<input id="username" placeholder="Username">
+<input id="age" type="number" placeholder="Age">
+<input id="fb" placeholder="Facebook Link">
+<input id="tg" placeholder="Telegram Username (@username)">
+<input id="mp" type="number" placeholder="Legendary MP count">
+<input id="br" type="number" placeholder="Legendary BR count">
+<button onclick="apply()">Submit</button>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { getFirestore, addDoc, collection } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+const firebaseConfig = {
+ apiKey:"API_KEY",
+ authDomain:"PROJECT.firebaseapp.com",
+ projectId:"PROJECT_ID"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+window.apply = async ()=>{
+ const data={
+  username:username.value,
+  age:age.value,
+  fb:fb.value,
+  tg:tg.value,
+  mp:+mp.value,
+  br:+br.value,
+  status:"pending",
+  created:Date.now()
+ };
+
+ if(!data.tg.startsWith("@")){
+  alert("You need Telegram account");
+  return;
+ }
+
+ await addDoc(collection(db,"applications"),data);
+
+ await fetch("/api/bot",{
+  method:"POST",
+  headers:{"Content-Type":"application/json"},
+  body:JSON.stringify({type:"new",data})
+ });
+
+ alert("Application sent!");
+}
+</script>
+</body>
+</html>

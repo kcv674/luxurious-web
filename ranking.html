@@ -1,0 +1,19 @@
+<h2>🏆 Clan Rankings</h2>
+<div id="rank"></div>
+
+<script>
+const members=[
+ {u:"Player1",mp:20,br:10},
+ {u:"Player2",mp:15,br:20}
+];
+
+members.forEach(m=>{
+ m.points=(m.mp*10)+(m.br*15);
+});
+
+members.sort((a,b)=>b.points-a.points);
+
+members.forEach((m,i)=>{
+ rank.innerHTML+=`<p>#${i+1} ${m.u} - ${m.points} pts</p>`;
+});
+</script>

@@ -1,0 +1,4 @@
+{
+ "functions":{"api/bot.js":{"memory":128}},
+ "routes":[{"src":"/api/bot","dest":"/api/bot.js"}]
+}
